@@ -1,5 +1,4 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -11,6 +10,10 @@ from django.contrib.auth.decorators import login_required
 from .forms import ProductForm
 from .models import Product, Subscription, Category
 from .filters import ProductFilter
+
+from django.http import HttpResponse
+from django.views import View
+from .tasks import hello, printer
 
 
 @login_required
@@ -110,3 +113,8 @@ def subscriptions(request):
         {'category': categories_with_subscriptions})
 
 
+class IndexView(View):
+    def get(self, request):
+        printer.delay(10)
+        hello.delay()
+        return HttpResponse('Hello!')

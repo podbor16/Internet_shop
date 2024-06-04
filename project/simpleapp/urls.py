@@ -1,7 +1,7 @@
 from django.urls import path
 # Импортируем созданное нами представление
 from .views import (
-   ProductsList, ProductDetail, ProductCreate, ProductUpdate, ProductDelete, subscriptions
+   ProductsList, ProductDetail, ProductCreate, ProductUpdate, ProductDelete, subscriptions, IndexView
 )
 
 
@@ -12,7 +12,9 @@ urlpatterns = [
    # Т.к. наше объявленное представление является классом,
    # а Django ожидает функцию, нам надо представить этот класс в виде view.
    # Для этого вызываем метод as_view.
-   path('', ProductsList.as_view(), name='products_list'),
+
+   #path('', ProductsList.as_view(), name='products_list'),
+   path('', IndexView.as_view()),
 
    # pk — это первичный ключ товара, который будет выводиться у нас в шаблон
    # int — указывает на то, что принимаются только целочисленные значения
