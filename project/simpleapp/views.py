@@ -13,6 +13,8 @@ from .filters import ProductFilter
 
 from django.http import HttpResponse
 from django.views import View
+from django.views.decorators.cache import cache_page
+
 from .tasks import hello, printer
 
 
@@ -85,6 +87,7 @@ class ProductDelete(PermissionRequiredMixin, DeleteView):
 
 @login_required
 @csrf_protect
+@cache_page(60)
 def subscriptions(request):
     if request.method == 'POST':
         category_id = request.POST.get('category_id')

@@ -35,8 +35,6 @@ ALLOWED_HOSTS = []
 LOGIN_REDIRECT_URL = '/products'
 LOGOUT_REDIRECT_URL = '/products'
 
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -76,6 +74,8 @@ MIDDLEWARE = [
 
     # Add the account middleware:
     'allauth.account.middleware.AccountMiddleware',
+
+
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -198,3 +198,13 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        # Указываем куда будем сохранять кэшируемые файлы!
+        # Не забываем создать папку cache_files внутри папки с manage.py
+        'LOCATION': os.path.join(BASE_DIR,  'cache_files'),
+        'TIMEOUT': 30,
+    }
+}
